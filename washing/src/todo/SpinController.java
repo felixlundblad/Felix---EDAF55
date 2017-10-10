@@ -6,13 +6,16 @@ import done.AbstractWashingMachine;
 
 
 public class SpinController extends PeriodicThread {
-	// TODO: add suitable attributes
+	AbstractWashingMachine mach;
+	double speed;
 
 	public SpinController(AbstractWashingMachine mach, double speed) {
-		super((long) (1000/speed)); // TODO: replace with suitable period
+		super((long) (1000/speed)); 
+		this.mach = mach;
+		this.speed = speed;
 	}
 
-	public void perform() {
-		// TODO: implement this method
+		public void perform() {
+			// TODO: implement this method
 	}
 }

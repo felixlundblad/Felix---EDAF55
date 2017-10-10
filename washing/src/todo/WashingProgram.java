@@ -45,6 +45,7 @@ public abstract class WashingProgram extends RTThread {
 	 * @param   tempController   The TemperatureController to use
 	 * @param   waterController  The WaterController to use
 	 * @param   spinController   The SpinController to use
+	 * @param	programRunning	 Boolean to check if a program is currently running
 	 */
 	protected WashingProgram(AbstractWashingMachine mach,
 			double speed,
@@ -58,6 +59,7 @@ public abstract class WashingProgram extends RTThread {
 		myTempController  = tempController;
 		myWaterController = waterController;
 		mySpinController  = spinController;
+		programRunning 	  = false;
 	}
 
 	// ---------------------------------------------------- OVERRIDDEN METHODS
@@ -72,12 +74,15 @@ public abstract class WashingProgram extends RTThread {
 	public void run() {
 		boolean wasInterrupted = false;
 		try {
+			programRunning = true;
 			wash();
 		}
 		catch (InterruptedException e) {
+			programRunning = false;
 			wasInterrupted = true;
 		}
 		catch(RTInterrupted e) {   // Thrown by semaphores
+			programRunning = false;
 			wasInterrupted = true;
 		}
 
@@ -127,5 +132,11 @@ public abstract class WashingProgram extends RTThread {
 	 * The spin controller
 	 */
 	protected SpinController mySpinController;
+	
+	/*
+	 *	To check if a program is currently runing 
+	 */
+	protected boolean programRunning;
+	
 }
 
