@@ -45,7 +45,7 @@ class WashingProgram3 extends WashingProgram {
 	 * when the start() method is called.
 	 */
 	protected void wash() throws InterruptedException {
-
+		System.out.println("\t Emptying mashine");
 		// Switch of temp regulation
 		myTempController.putEvent(new TemperatureEvent(this,
 				TemperatureEvent.TEMP_IDLE,
@@ -67,5 +67,6 @@ class WashingProgram3 extends WashingProgram {
 
 		// Unlock
 		myMachine.setLock(false);
+		System.out.println("____________________________ \n WashingProgram3 is finished");
 	}
 }

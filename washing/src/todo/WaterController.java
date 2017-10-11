@@ -13,7 +13,7 @@ public class WaterController extends PeriodicThread {
 	WashingProgram wp;
 
 	public WaterController(AbstractWashingMachine mach, double speed) {
-		super((long) (1000/speed)); 
+		super((long) (10000/speed)); 
 		this.mach = mach;
 		mode = WaterEvent.WATER_IDLE;
 		hasSent = false;
@@ -28,7 +28,6 @@ public class WaterController extends PeriodicThread {
 			hasSent = false;
 			mode = e.getMode();	
 			wantedLevel = e.getLevel();
-			System.out.println("WaterController is done");
 			wp = (WashingProgram) e.getSource();
 		}
 		switch(mode) {
@@ -55,7 +54,6 @@ public class WaterController extends PeriodicThread {
 		case WaterEvent.WATER_IDLE:
 			mach.setDrain(false);
 			mach.setFill(false);
-			//System.out.println("Water level is set to idle");
 			break;
 		}
 	}

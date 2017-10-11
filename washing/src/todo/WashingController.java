@@ -19,8 +19,6 @@ public class WashingController implements ButtonListener {
 		tempController.start();
 		waterController.start();
 		spinController.start();
-
-		// Solve this shite with the ButtonListener
 	}
 
 	public void processButton(int theButton) {

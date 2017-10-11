@@ -14,7 +14,7 @@ public class TemperatureController extends PeriodicThread {
 
 
 	public TemperatureController(AbstractWashingMachine mach, double speed) {
-		super((long) (1000/speed));
+		super((long) (10000/speed));
 		hasSent = false;
 		this.mach = mach;
 		mode = TemperatureEvent.TEMP_IDLE;
@@ -32,7 +32,7 @@ public class TemperatureController extends PeriodicThread {
 		}
 		switch(mode) {
 		case TemperatureEvent.TEMP_SET:
-			if(mach.getTemperature() >= wantedTemp - 1 && !hasSent) {				
+			if(mach.getTemperature() >= wantedTemp - 2 && !hasSent) {				
 					wp.putEvent(new AckEvent(this));
 					hasSent = true;
 					System.out.println("TemperatureController is done");
@@ -40,9 +40,9 @@ public class TemperatureController extends PeriodicThread {
 			mach.setHeating(true);			
 			break;
 		case TemperatureEvent.TEMP_IDLE:
-			if(mach.getTemperature() < wantedTemp - 1)
+			if(mach.getTemperature() < wantedTemp - 1.7)
 				mach.setHeating(true);
-			else mach.setHeating(false);
+			else if(mach.getTemperature() > wantedTemp - 0.3) mach.setHeating(false);
 			break;
 		}
 	}

@@ -87,7 +87,7 @@ public abstract class WashingProgram extends RTThread {
 		}
 
 		if (wasInterrupted) {
-			System.out.println("Washing program aborted.");
+			System.out.println("\t Washing program aborted.");
 			myTempController.putEvent(
 					new TemperatureEvent(this, TemperatureEvent.TEMP_IDLE, 0.0));
 			myWaterController.putEvent(

@@ -20,6 +20,7 @@ public class WashingProgram2 extends WashingProgram{
 
 	
 	protected void wash() throws InterruptedException {
+		System.out.println("\t Starting WashingProgram2");
 		/*
 		 * Pre wash
 		 */
@@ -50,9 +51,11 @@ public class WashingProgram2 extends WashingProgram{
 		myTempController.putEvent(new TemperatureEvent(this, TemperatureEvent.TEMP_IDLE, 0));	
 		mySpinController.putEvent(new SpinEvent(this, SpinEvent.SPIN_OFF));
 		myMachine.setLock(false);
+		System.out.println("____________________________ \n WashingProgram2 is finished");
 	}
 	
 	private void setWash(double fillLevel, int temp, int washTimeMillis) {
+		System.out.println("\t Setting up wash");
 		myMachine.setLock(true);
 		myWaterController.putEvent(new WaterEvent(this, WaterEvent.WATER_FILL, fillLevel));
 		mailbox.doFetch();
@@ -65,10 +68,10 @@ public class WashingProgram2 extends WashingProgram{
 		sleep((int)(washTimeMillis/speed));
 		
 		mySpinController.putEvent(new SpinEvent(this, SpinEvent.SPIN_OFF));
+		myTempController.putEvent(new TemperatureEvent(this, TemperatureEvent.TEMP_IDLE, 0));
 		myWaterController.putEvent(new WaterEvent(this, WaterEvent.WATER_DRAIN, 0));
 		mailbox.doFetch();
 		myWaterController.putEvent(new WaterEvent(this, WaterEvent.WATER_IDLE, 0));
-		mailbox.doFetch();
 		// Should I have something to empty the mailbox?
 	}
 }
