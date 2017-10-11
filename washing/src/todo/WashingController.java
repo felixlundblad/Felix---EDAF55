@@ -16,6 +16,10 @@ public class WashingController implements ButtonListener {
 		tempController = new TemperatureController(theMachine, theSpeed);
 		waterController = new WaterController(theMachine, theSpeed);
 		spinController = new SpinController(theMachine, theSpeed);
+		tempController.start();
+		waterController.start();
+		spinController.start();
+
 		// Solve this shite with the ButtonListener
 	}
 
@@ -28,22 +32,28 @@ public class WashingController implements ButtonListener {
 		 *   Went with 2 using a protected boolean in WashingProgram
 		 */
 		switch (theButton) {
-		case 0:
-			//Emergency stop goes here
-			if(wp != null) wp.interrupt();
-			break;
 		case 1:
-			if(wp != null && !wp.programRunning) wp = new WashingProgram1(theMachine, theSpeed, tempController, waterController, spinController);
-			wp.run();
+			if (wp == null || !wp.isAlive()) {
+				wp = new WashingProgram1(theMachine, theSpeed, tempController, waterController, spinController);
+				wp.start();
+			}
 			break;
 		case 2:
-			if(wp != null && !wp.programRunning) wp = new WashingProgram2(theMachine, theSpeed, tempController, waterController, spinController);
-			wp.run();
+			if (wp == null || !wp.isAlive()) {
+				wp = new WashingProgram2(theMachine, theSpeed, tempController, waterController, spinController);
+				wp.start();
+			}
 			break;
 		case 3:
-			if(wp != null && !wp.programRunning) wp = new WashingProgram3(theMachine, theSpeed, tempController, waterController, spinController);
-			wp.run();
+			if (wp == null || !wp.isAlive()) {
+				wp = new WashingProgram3(theMachine, theSpeed, tempController, waterController, spinController);
+				wp.start();
+			}
 			break;
+		default:
+			if (wp != null && wp.isAlive()) {
+				wp.interrupt();
+			}
 		}
 	}
 }

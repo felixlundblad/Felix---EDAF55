@@ -55,20 +55,18 @@ public class WashingProgram2 extends WashingProgram{
 	private void setWash(double fillLevel, int temp, int washTimeMillis) {
 		myMachine.setLock(true);
 		myWaterController.putEvent(new WaterEvent(this, WaterEvent.WATER_FILL, fillLevel));
+		mailbox.doFetch();
 		myWaterController.putEvent(new WaterEvent(this, WaterEvent.WATER_IDLE, fillLevel));
-		//mailbox.doFetch();
 		myTempController.putEvent(new TemperatureEvent(this, TemperatureEvent.TEMP_SET, temp));
 		mailbox.doFetch();
+		myTempController.putEvent(new TemperatureEvent(this, TemperatureEvent.TEMP_IDLE, temp));	
 		mySpinController.putEvent(new SpinEvent(this, SpinEvent.SPIN_SLOW));
-		//mailbox.doFetch();
-		mailbox.doFetch();
 		
 		sleep((int)(washTimeMillis/speed));
 		
-		myTempController.putEvent(new TemperatureEvent(this, TemperatureEvent.TEMP_IDLE, 0));	
 		mySpinController.putEvent(new SpinEvent(this, SpinEvent.SPIN_OFF));
-		//mailbox.doFetch();
 		myWaterController.putEvent(new WaterEvent(this, WaterEvent.WATER_DRAIN, 0));
+		mailbox.doFetch();
 		myWaterController.putEvent(new WaterEvent(this, WaterEvent.WATER_IDLE, 0));
 		mailbox.doFetch();
 		// Should I have something to empty the mailbox?
